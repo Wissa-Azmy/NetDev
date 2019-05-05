@@ -15,6 +15,26 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        fetchData(withURL: "https://orangevalleycaa.org/api/videos.php")
+    }
+    
+    
+    private func fetchData(withURL url: String) {
+        if let urlString = URL(string: url) {
+            let task = URLSession.shared.dataTask(with: urlString) { (data, response, error) in
+                if error != nil || data == nil {
+                    // handle error
+                } else {
+                    let stringData = String(data: data!, encoding: .ascii)
+                    print(stringData!)
+                }
+            }
+            task.resume()
+        }
+    }
 
 }
 
