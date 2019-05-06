@@ -18,7 +18,9 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        fetchData(withURL: "https://orangevalleycaa.org/api/videos.php")
+//        fetchData(withURL: "https://orangevalleycaa.org/api/videos.php")
+        fetchJsonData(withURL: "https://orangevalleycaa.org/api/videos.php")
+        
     }
     
     
@@ -35,6 +37,29 @@ class ViewController: UIViewController {
             task.resume()
         }
     }
+    
+    
+    private func fetchJsonData(withURL url: String) {
+        if let urlString = URL(string: url) {
+            let task = URLSession.shared.dataTask(with: urlString) { (data, response, error) in
+                if error != nil || data == nil {
+                    // handle error
+                } else {
+                    if let jsonResponse = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) {
+                        if jsonResponse is [Any] {
+                            print("Array: \(jsonResponse)")
+                        } else if jsonResponse is [String: Any] {
+                            print("Dict: \(jsonResponse)")
+                        }
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    
+
 
 }
 
