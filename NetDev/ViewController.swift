@@ -18,13 +18,13 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-//        fetchData(withURL: "https://orangevalleycaa.org/api/videos.php")
-        fetchJsonData(withURL: "https://orangevalleycaa.org/api/videos.php")
-        
+//        fetchStringData(withURL: "https://orangevalleycaa.org/api/videos.php")
+//        fetchJsonData(withURL: "https://orangevalleycaa.org/api/videos.php")
+        fetchBinaryData(withURL: "https://cdn.pixabay.com/photo/2018/02/09/21/46/rose-3142529_1280.jpg")
     }
     
     
-    private func fetchData(withURL url: String) {
+    private func fetchStringData(withURL url: String) {
         if let urlString = URL(string: url) {
             let task = URLSession.shared.dataTask(with: urlString) { (data, response, error) in
                 if error != nil || data == nil {
@@ -59,7 +59,25 @@ class ViewController: UIViewController {
     }
     
     
-
+    private func fetchBinaryData(withURL url: String) {
+        if let urlString = URL(string: url) {
+            let task = URLSession.shared.dataTask(with: urlString) { (data, response, error) in
+                if error != nil || data == nil {
+                    // handle error
+                } else {
+                    let img = UIImage(data: data!)
+                    
+                    DispatchQueue.main.async {
+                        let imageView = UIImageView(frame: self.view.frame)
+                        imageView.contentMode = .scaleAspectFit
+                        imageView.image = img
+                        self.view.addSubview(imageView)
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
 
 }
 
