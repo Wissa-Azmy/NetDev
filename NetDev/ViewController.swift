@@ -24,6 +24,11 @@ class ViewController: UIViewController {
         downloadFile(fromURL: "https://cdn.pixabay.com/photo/2018/02/09/21/46/rose-3142529_1280.jpg")
     }
     
+}
+
+
+// MARK: - URLSession Methods
+extension ViewController {
     
     private func fetchStringData(withURL url: String) {
         if let urlString = URL(string: url) {
